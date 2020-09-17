@@ -59,6 +59,8 @@ const store = new Vue({
     // API calls
     logout () {
       sessionStorage.clear()
+      document.documentElement.style.removeProperty('--color')
+      document.documentElement.style.removeProperty('--bg_color')
       this.isRegistered = false
       router.push('/login')
     },
@@ -70,7 +72,7 @@ const store = new Vue({
     },
     messageNew (message) {
       socket.emit('message new', message)
-    }
+    },
   },
   created () {
     this.registerListeners()

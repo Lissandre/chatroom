@@ -65,7 +65,7 @@ li button
   border-radius 50%
   cursor pointer
   outline none
-  transition transform 0.32s ease
+  transition transform 0.32s ease, border 0.12s linear
   &.purple
     background #B9ADFF
   &.green
@@ -78,6 +78,7 @@ li button
     background #707070
   &.active
     transform scale(1.5)
+    border calc(0.75*3px) solid #000000
 .container
   width 100%
   display flex

@@ -5,6 +5,7 @@
     </div>
     <div class="messageContent">
       {{ message.text }}
+      <img v-if="isImg" class="gif" :src="message.text" /> 
     </div>
     <!-- <strong v-if="isCurrentUser">{{ message.user.username }}</strong>
     <em v-else>{{ message.user.username }}</em>
@@ -31,13 +32,18 @@ export default {
     },
     isSameUser () {
       return this.lastMessage ? this.message.user.username === this.lastMessage.user.username : false
+    },
+    isImg(){
+      return this.message.text.match(/.*\.(gif|jpe?g|bmp|png)$/igm)
     }
   }
 }
 </script>
 
 <style lang="stylus">
-
+.gif
+  display block
+  max-width 100%
 li.message
   list-style none
   display flex

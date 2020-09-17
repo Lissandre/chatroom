@@ -7,6 +7,10 @@
           <autoheight-textarea>
             <textarea v-model="message" type="text" maxlength="499" placeholder="Votre message"></textarea>
           </autoheight-textarea>
+          <VEmojiPicker @select="selectEmoji" id="emojiB" class="hiddenE"/>
+          <gifSearch apiKey="twMn23Yq8rpWDD2QfewYDiLry95blTwj" @clicked="onClickGIF" id="gifChoice" class="close"/>
+          <div class="emojiButton" @click="triggerEmoji()">O</div>
+          <div class="gifButton" @click="triggerGif()">X</div>
           <div class="abs">{{ 499 - message.length }}</div>
         </div>
         <button><img src="@/assets/images/send.svg" alt="Send button"></button>
@@ -17,6 +21,8 @@
 
 <script>
 import 'autoheight-textarea'
+import VEmojiPicker from 'v-emoji-picker'
+import gifSearch from "vue-gif-search"
 export default {
   data () {
     return {
@@ -27,12 +33,57 @@ export default {
     onSubmit () {
       this.$emit('sendMessage', this.message)
       this.message = ''
+    },
+    triggerEmoji(){
+      document.querySelector('#emojiB').classList.toggle('hiddenE')
+    },
+    triggerGif(){
+      document.querySelector('#gifChoice').classList.toggle('close')
+    },
+    selectEmoji(emoji) {
+      console.log(emoji)
+      this.message += emoji.data
+    },
+    onClickGIF (value) {
+      this.$emit('sendMessage', value)
+      document.querySelector('#gifChoice').classList.toggle('close')
     }
+  },
+  components:{
+    VEmojiPicker,
+    gifSearch
   }
 }
 </script>
 
 <style lang="stylus" scoped>
+#gifChoice
+  position fixed
+  top 0
+  left 0
+  width 100%
+  height 100%
+  &.close
+    display none
+.gifButton
+  position absolute
+  right 60px
+  top 50%
+  transform translateY(-50%)
+  cursor pointer
+.emojiButton
+  position absolute
+  right 20px
+  top 50%
+  transform translateY(-50%)
+  cursor pointer
+#emojiB
+  position absolute
+  right 0
+  top 0
+  transform translateY(-100%)
+  &.hiddenE
+    display none
 .centerer
   width 96%
   display flex

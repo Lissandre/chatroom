@@ -3,8 +3,10 @@ import VueRouter from 'vue-router'
 import Chat from '../views/Chat.vue'
 import Login from '../views/Login.vue'
 import store from '../store'
+import VueFilterDateFormat from '@vuejs-community/vue-filter-date-format'
 
 Vue.use(VueRouter)
+Vue.use(VueFilterDateFormat)
 
 const routes = [
   {

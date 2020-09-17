@@ -1,7 +1,9 @@
 <template>
   <div class="container">
-    <div class="round"></div>
-    <h1>La pièce qui parle</h1>
+    <div class="avatarChoice">
+      <div class="round men" @click="setAvatar(menAvatar)" ref="men"></div>
+      <div class="round women" @click="setAvatar(womenAvatar)" ref="women"></div>
+    </div>
     <div class="error" v-if="error">{{ error }}</div>
     <form @submit.prevent="onSubmit">
       <input type="hidden" :value="menAvatar" ref="avatar">
@@ -18,14 +20,25 @@ export default {
   data () {
     return {
       username: '',
-      menAvatar: 'https://preview.redd.it/m3ocrvk8z3041.jpg?auto=webp&s=1ee18e86491dbb5fe55b550da1a541ff8b594d1a',
-      womenAvatar: '',
-      error: store.error
+      menAvatar: 'https://ih1.redbubble.net/image.868479518.6651/flat,750x,075,f-pad,750x1000,f8f8f8.u2.jpg',
+      womenAvatar: 'https://miro.medium.com/max/640/0*qRXq6CVwMDI_R_8A.jpg',
+      Avatar: '',
+      error: store.error,
+      choice: false
     }
   },
   methods: {
+    setAvatar (avatar) {
+      this.avatar = avatar
+      if(this.choice){
+        document.querySelector('.active').classList.remove('active')
+        document.querySelector('.inactive').classList.remove('inactive')
+      }
+      avatar === this.menAvatar ? this.$refs.men.classList.add('active') & this.$refs.women.classList.add('inactive') : this.$refs.men.classList.add('inactive') & this.$refs.women.classList.add('active')
+      this.choice = true
+    },
     onSubmit () {
-      store.userRegister(this.username, this.$refs.avatar.value)
+      store.userRegister(this.username, this.avatar)
       this.username = ''
     }
   }
@@ -37,7 +50,7 @@ input:focus ~ .floating-label,
 input:not(:focus):valid ~ .floating-label{
   top: -6px;
   left: 0px;
-  font-size: 11px;
+  font-size: 14px;
   opacity: 1;
 }
 
@@ -46,7 +59,8 @@ input:not(:focus):valid ~ .floating-label{
 //   width: 200px;
 //   height: 35px;
 // }
-
+.avatarChoice
+  display flex
 .floating-label {
   position: absolute;
   pointer-events: none;
@@ -62,38 +76,62 @@ input:not(:focus):valid ~ .floating-label{
   align-items center
   flex-direction column
 .round
-  height 88px
-  width 88px
-  background #707070
+  height 120px
+  width 120px
   border-radius 50%
-  margin-bottom 32px
-  background url(https://preview.redd.it/m3ocrvk8z3041.jpg?auto=webp&s=1ee18e86491dbb5fe55b550da1a541ff8b594d1a)
-  background-size cover
-  background-position center center
-h1
-  font-weight bold
-  font-size 40px
-  color #707070
   margin-bottom 80px
+  background-size contain
+  background-position center center
+  cursor pointer
+  box-shadow 0px 0px 0px rgba(0, 0, 0, 0.16)
+  filter grayscale(0)
+  transition transform 0.2s linear, box-shadow 0.2s linear, opacity 0.2s ease-out, filter 0.2s ease-out
+  &:hover
+    transform scale(1.1)
+    box-shadow 4px 4px 0px rgba(0, 0, 0, 0.16)
+  &.men
+    background url(https://ih1.redbubble.net/image.868479518.6651/flat,750x,075,f-pad,750x1000,f8f8f8.u2.jpg)
+    background-size cover
+    background-position center center
+  &.women
+    background url(https://miro.medium.com/max/640/0*qRXq6CVwMDI_R_8A.jpg)
+    background-size cover
+    background-position center center
+  &.active
+    transform scale(1.2)
+  &.inactive
+    transform scale(0.9)
+    opacity 0.8
+    filter grayscale(100%)
 form
   position relative
   display flex
   flex-direction column
 input
-  width 340px
+  width 468px
   border none
-  border-bottom 1px solid #707070
+  border-bottom 2px solid #707070
   margin-bottom 80px
   padding 16px 0px
-  font-size 14px
+  font-size 22px
   outline none
   height auto
 button
   text-transform uppercase
-  height 63px
-  border-radius 35px
+  height 60px
+  border-radius 16px
+  font-weight bold
   border none
   color #ffffff
-  background #707070
+  background #6A3BF7
   outline none
+  border 3px solid #000000
+::selection
+  color #ffffff
+  background #6A3BF7
+  outline-color #000000
+::-moz-selection
+  color #ffffff
+  background #6A3BF7
+  outline-color #000000
 </style>

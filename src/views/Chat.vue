@@ -36,7 +36,23 @@ export default {
       store.messageNew(
         text
       )
-    }
+    },
+    onSendMessage (text) {
+      const match = text.match(/^\/gif (.+)/)
+      if (match) {
+        const tag = match[1]
+        console.log('sending request for tag', tag)
+        axios
+          .get(`https://api.giphy.com/v1/gifs/random?api_key=Zmxd68H8QGnFXrbaURxWj0T0o8QMFpJQ&tag=${tag}&rating=g`)
+          .then((response) => {
+            store.messageNew(response.data.data.image_original_url)
+          })
+        return
+      }
+      store.messageNew(text)
+    },
+    onSendGif (tag) {
+    },
   },
   components: {
     Color,
